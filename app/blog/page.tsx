@@ -6,9 +6,9 @@ import { JsonLd } from "@/components/shared/json-ld";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 export const metadata = createMetadata({
-  title: "Blog",
+  title: "AI Patient Intake Blog — Guides, Case Studies & Insights",
   description:
-    "Insights on AI-powered patient intake, healthcare technology, HIPAA compliance, and clinical workflow optimization.",
+    "Expert guides on AI patient intake, patient intake automation, EHR integration, and HIPAA compliance. Learn how AI is transforming clinical workflows.",
   path: "/blog",
 });
 

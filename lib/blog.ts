@@ -36,6 +36,8 @@ export function getPostBySlug(slug: string) {
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
   return {
     frontmatter: {
       slug,
@@ -48,6 +50,7 @@ export function getPostBySlug(slug: string) {
       published: data.published ?? true,
     } satisfies BlogPost,
     content,
+    readingTime,
   };
 }
 

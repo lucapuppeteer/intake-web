@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
-import { ThemeToggle } from "./theme-toggle";
+import { NAV_LINKS } from "@/lib/constants";
+import { Logo } from "@/components/shared/logo";
 import { MobileNav } from "./mobile-nav";
 import { cn } from "@/lib/utils";
 
@@ -27,23 +27,8 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-          <svg
-            viewBox="0 0 32 32"
-            className="h-8 w-8 text-primary"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect width="32" height="32" rx="8" fill="currentColor" />
-            <path
-              d="M10 16h12M16 10v12"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span>{SITE_NAME}</span>
+        <Link href="/" className="flex items-center">
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
@@ -51,7 +36,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
+              className="px-3 py-2 text-sm font-medium text-foreground/60 transition-colors hover:text-foreground"
             >
               {link.label}
             </Link>
@@ -59,11 +44,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:block">
-            <ThemeToggle />
-          </div>
           <Button asChild size="sm" className="hidden md:inline-flex">
-            <a href="#contact">Book a Demo</a>
+            <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer">Book a Call</a>
           </Button>
           <MobileNav />
         </div>

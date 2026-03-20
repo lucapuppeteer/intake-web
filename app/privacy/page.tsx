@@ -3,7 +3,7 @@ import { SITE_NAME, COMPANY_INFO } from "@/lib/constants";
 
 export const metadata = createMetadata({
   title: "Privacy Policy",
-  description: `${SITE_NAME} Privacy Policy — how we collect, use, and protect your data.`,
+  description: `${SITE_NAME} Privacy Policy — how our HIPAA-compliant AI patient intake platform collects, uses, and protects your data.`,
   path: "/privacy",
 });
 
@@ -11,14 +11,14 @@ export default function PrivacyPage() {
   return (
     <article className="py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="font-serif text-3xl tracking-tight sm:text-4xl">
           Privacy Policy
         </h1>
         <p className="mt-4 text-muted-foreground">
           Last updated: February 1, 2026
         </p>
 
-        <div className="legal-content mt-10 space-y-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-bold [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-base [&_h3]:font-semibold [&_p]:text-muted-foreground [&_p]:leading-relaxed [&_ul]:ml-6 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:text-muted-foreground [&_li]:leading-relaxed">
+        <div className="legal-content mt-10 space-y-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-serif [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-base [&_h3]:font-serif [&_p]:text-muted-foreground [&_p]:leading-relaxed [&_ul]:ml-6 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:text-muted-foreground [&_li]:leading-relaxed">
           <h2>1. Introduction</h2>
           <p>
             {SITE_NAME} (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to

@@ -1,33 +1,19 @@
 import Link from "next/link";
-import { SITE_NAME, FOOTER_LINKS, COMPANY_INFO } from "@/lib/constants";
+import { FOOTER_LINKS, COMPANY_INFO } from "@/lib/constants";
+import { Logo } from "@/components/shared/logo";
 
 export function Footer() {
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+    <footer className="border-t bg-card">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <svg
-                viewBox="0 0 32 32"
-                className="h-7 w-7 text-primary"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <rect width="32" height="32" rx="8" fill="currentColor" />
-                <path
-                  d="M10 16h12M16 10v12"
-                  stroke="white"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span>{SITE_NAME}</span>
+            <Link href="/">
+              <Logo size="sm" />
             </Link>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-              AI-powered patient intake that saves time, reduces errors, and lets providers focus on care.
+            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+              AI patient intake software that automates clinical data collection, reduces errors, and lets providers focus on care.
             </p>
           </div>
 
@@ -65,7 +51,54 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Articles */}
+          <div>
+            <h3 className="text-sm font-semibold">Popular Articles</h3>
+            <ul className="mt-3 space-y-2">
+              <li>
+                <Link
+                  href="/blog/what-is-a-patient-intake"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  What Is a Patient Intake?
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog/what-is-ai-patient-intake"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  What Is AI Patient Intake?
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog/best-voice-ai-patient-intake-calls"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Voice AI for Intake Calls
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog/digital-patient-intake-forms-registration"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Digital Patient Intake Forms
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog/hipaa-compliance-guide"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  HIPAA Compliance Guide
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal + Contact */}
           <div>
             <h3 className="text-sm font-semibold">Legal</h3>
             <ul className="mt-3 space-y-2">
@@ -83,13 +116,14 @@ export function Footer() {
             <h3 className="mt-6 text-sm font-semibold">Contact</h3>
             <ul className="mt-3 space-y-2">
               <li className="text-sm text-muted-foreground">{COMPANY_INFO.email}</li>
-              <li className="text-sm text-muted-foreground">{COMPANY_INFO.phone}</li>
+              <li className="text-sm font-medium">{COMPANY_INFO.phone}</li>
+              <li className="text-xs text-muted-foreground leading-relaxed">{COMPANY_INFO.address}</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 border-t pt-6 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+          &copy; {new Date().getFullYear()} IntakeAI. All rights reserved.
         </div>
       </div>
     </footer>

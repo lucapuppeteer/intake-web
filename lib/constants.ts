@@ -1,7 +1,8 @@
 export const SITE_NAME = "IntakeAI";
 export const SITE_DESCRIPTION =
-  "AI-powered patient intake that asks the right questions, captures key data, fills your EHR, and drafts a diagnosis — so providers can focus on care.";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://intakeai.com";
+  "AI patient intake software that replaces paper patient intake forms with conversational AI. Automate patient intake calls, capture structured clinical data, sync to your EHR, and draft a diagnosis — so providers can focus on care. HIPAA compliant.";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://aipatientintake.com";
 
 export const NAV_LINKS = [
   { label: "Features", href: "#features" },

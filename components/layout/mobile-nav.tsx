@@ -9,8 +9,8 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
-import { ThemeToggle } from "./theme-toggle";
+import { NAV_LINKS } from "@/lib/constants";
+import { Logo } from "@/components/shared/logo";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -23,7 +23,9 @@ export function MobileNav() {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-72">
-        <SheetTitle className="text-lg font-bold">{SITE_NAME}</SheetTitle>
+        <SheetTitle>
+          <Logo size="sm" />
+        </SheetTitle>
         <nav className="mt-8 flex flex-col gap-4">
           {NAV_LINKS.map((link) => (
             <a
@@ -36,13 +38,9 @@ export function MobileNav() {
             </a>
           ))}
           <div className="my-2 h-px bg-border" />
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Theme</span>
-            <ThemeToggle />
-          </div>
-          <Button asChild className="mt-4 w-full">
-            <a href="#contact" onClick={() => setOpen(false)}>
-              Book a Demo
+          <Button asChild className="mt-2 w-full">
+            <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
+              Book a Call
             </a>
           </Button>
         </nav>

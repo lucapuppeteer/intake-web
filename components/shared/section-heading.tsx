@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
@@ -19,18 +18,18 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mb-12",
+        "mb-14",
         align === "center" && "mx-auto max-w-2xl text-center"
       )}
     >
       {badge && (
-        <Badge variant="secondary" className="mb-4">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-primary">
           {badge}
-        </Badge>
+        </p>
       )}
       <h2
         id={id}
-        className="text-3xl font-bold tracking-tight sm:text-4xl"
+        className="font-serif text-3xl tracking-tight sm:text-4xl"
       >
         {title}
       </h2>

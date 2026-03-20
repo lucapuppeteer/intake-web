@@ -1,57 +1,66 @@
-import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
-import { IntakeFlowAnimation } from "@/components/animations/intake-flow-animation";
+import { Shield, Award, ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32 sm:pb-24">
-      {/* Background gradient */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        aria-hidden="true"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
-        <div className="absolute top-1/4 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+    <section className="relative overflow-hidden">
+      {/* Full-bleed background image with overlay */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1920&q=80"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-background/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/80" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Left — copy */}
-          <FadeIn direction="up">
-            <div className="max-w-xl">
-              <Badge variant="secondary" className="mb-6">
-                AI-Powered Patient Intake
-              </Badge>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                Patient Intake,{" "}
-                <span className="text-primary">Reimagined</span> with AI
-              </h1>
-              <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-                An intelligent agent that conducts patient intake
-                conversations, captures structured clinical data, syncs it to
-                your EHR, and delivers a diagnosis draft — before the provider
-                walks in.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Button size="lg" asChild>
-                  <a href="#contact">Start Free Trial</a>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="#how-it-works">See How It Works</a>
-                </Button>
-              </div>
-              <p className="mt-4 text-sm text-muted-foreground">
-                No credit card required &middot; HIPAA compliant
-              </p>
+      <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-36 sm:px-6 sm:pb-32 sm:pt-44 lg:px-8 lg:pb-40 lg:pt-52">
+        <FadeIn direction="up">
+          <div className="max-w-2xl">
+            {/* Trust line */}
+            <div className="mb-8 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <Shield className="h-4 w-4 text-primary" />
+                HIPAA Compliant
+              </span>
+              <span className="h-4 w-px bg-border" />
+              <span className="flex items-center gap-1.5">
+                <Award className="h-4 w-4 text-primary" />
+                SOC 2 Type II Certified
+              </span>
             </div>
-          </FadeIn>
 
-          {/* Right — animated demo */}
-          <FadeIn direction="right" delay={0.3}>
-            <IntakeFlowAnimation />
-          </FadeIn>
-        </div>
+            <h1 className="font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+              Modern patient intake.
+              <br />
+              <span className="text-primary">Clinical-grade</span> reliability.
+            </h1>
+
+            <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
+              An AI agent that replaces paper forms and repetitive phone calls.
+              It captures structured clinical data, syncs it to your EHR, and
+              delivers a diagnosis draft — before the provider walks in.
+            </p>
+
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Button size="lg" className="h-12 px-8 text-base" asChild>
+                <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer">
+                  Book a Call
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+              <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
+                <a href="#demo">See It In Action</a>
+              </Button>
+            </div>
+
+          </div>
+        </FadeIn>
       </div>
     </section>
   );

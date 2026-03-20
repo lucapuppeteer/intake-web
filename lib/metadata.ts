@@ -22,7 +22,9 @@ export function createMetadata({
   const ogImageUrl = ogImage.startsWith("http") ? ogImage : `${SITE_URL}${ogImage}`;
 
   return {
-    title: title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — AI-Powered Patient Intake`,
+    title: title
+      ? `${title} | ${SITE_NAME}`
+      : `AI Patient Intake Software & Forms | ${SITE_NAME} — Automate Patient Intake Calls with AI`,
     description,
     metadataBase: new URL(SITE_URL),
     alternates: {
@@ -48,6 +50,13 @@ export function createMetadata({
       title: title || SITE_NAME,
       description,
       images: [ogImageUrl],
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+        { url: "/icon.svg", type: "image/svg+xml" },
+      ],
+      apple: "/apple-icon.png",
     },
     robots: noIndex
       ? { index: false, follow: false }

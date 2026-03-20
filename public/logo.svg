@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Rounded square base -->
+  <rect width="48" height="48" rx="12" fill="#1B3A5C"/>
+  <!-- Medical cross -->
+  <rect x="20" y="10" width="8" height="28" rx="3" fill="white"/>
+  <rect x="10" y="20" width="28" height="8" rx="3" fill="white"/>
+  <!-- AI accent — small glowing dot top-right of cross -->
+  <circle cx="36" cy="12" r="4" fill="#6B8F71"/>
+  <circle cx="36" cy="12" r="2" fill="white" opacity="0.6"/>
+</svg>

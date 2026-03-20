@@ -1,12 +1,5 @@
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { FadeIn } from "@/components/animations/fade-in";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -14,14 +7,14 @@ import { cn } from "@/lib/utils";
 
 const tiers = [
   {
-    name: "Starter",
-    price: "$299",
-    period: "/month",
-    description: "For small practices getting started with AI intake.",
+    name: "Essentials",
+    price: "$2.50",
+    period: "/intake",
+    description: "Everything you need to get started. Pay only for completed intakes.",
     featured: false,
-    cta: "Start Free Trial",
+    cta: "Book a Call",
     features: [
-      "Up to 100 intakes per month",
+      "Pay per completed intake",
       "Basic EHR integration",
       "Email support",
       "Standard analytics dashboard",
@@ -30,13 +23,13 @@ const tiers = [
   },
   {
     name: "Professional",
-    price: "$799",
-    period: "/month",
-    description: "For growing practices that need full-featured AI intake.",
+    price: "$3.50",
+    period: "/intake",
+    description: "Advanced features for growing practices that need the full platform.",
     featured: true,
-    cta: "Start Free Trial",
+    cta: "Book a Call",
     features: [
-      "Unlimited intakes",
+      "Everything in Essentials",
       "Advanced EHR integration",
       "Priority support",
       "Custom intake workflows",
@@ -49,7 +42,7 @@ const tiers = [
     name: "Enterprise",
     price: "Custom",
     period: "",
-    description: "For health systems with complex requirements.",
+    description: "Tailored pricing for health systems with high volume or complex needs.",
     featured: false,
     cta: "Contact Sales",
     features: [
@@ -66,37 +59,36 @@ const tiers = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="bg-muted/30 py-20 sm:py-28">
+    <section id="pricing" className="bg-muted/50 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="Pricing"
-          title="Simple, Transparent Pricing"
-          subtitle="Choose the plan that fits your practice. All plans include a 14-day free trial."
+          title="Pay per intake, not per seat"
+          subtitle="You only pay for completed intakes. No monthly minimums, no per-user fees."
         />
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {tiers.map((tier, i) => (
-            <FadeIn key={tier.name} delay={i * 0.1}>
-              <Card
+            <FadeIn key={tier.name} delay={i * 0.08}>
+              <div
                 className={cn(
-                  "relative flex h-full flex-col",
-                  tier.featured &&
-                    "border-primary shadow-lg shadow-primary/10 scale-[1.02]"
+                  "relative flex h-full flex-col rounded-lg border bg-card",
+                  tier.featured && "ring-2 ring-primary"
                 )}
               >
                 {tier.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground">
-                      Most Popular
-                    </Badge>
+                  <div className="absolute -top-3 left-6">
+                    <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
+                      Best Value
+                    </span>
                   </div>
                 )}
-                <CardHeader className="p-6">
+                <div className="p-6">
                   <p className="text-sm font-semibold text-muted-foreground">
                     {tier.name}
                   </p>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold">{tier.price}</span>
+                  <div className="mt-3 flex items-baseline gap-1">
+                    <span className="font-serif text-4xl tracking-tight">{tier.price}</span>
                     {tier.period && (
                       <span className="text-muted-foreground">
                         {tier.period}
@@ -106,31 +98,40 @@ export function Pricing() {
                   <p className="mt-2 text-sm text-muted-foreground">
                     {tier.description}
                   </p>
-                </CardHeader>
+                </div>
                 <Separator />
-                <CardContent className="flex-1 p-6">
+                <div className="flex-1 p-6">
                   <ul className="space-y-3">
                     {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      <li key={feature} className="flex items-start gap-2.5">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                </CardContent>
-                <CardFooter className="p-6 pt-0">
+                </div>
+                <div className="p-6 pt-0">
                   <Button
                     className="w-full"
                     variant={tier.featured ? "default" : "outline"}
                     asChild
                   >
-                    <a href="#contact">{tier.cta}</a>
+                    <a href={tier.name === "Enterprise" ? "#contact" : "https://calendly.com/luca-ka3s"} target={tier.name === "Enterprise" ? undefined : "_blank"} rel={tier.name === "Enterprise" ? undefined : "noopener noreferrer"}>
+                      {tier.cta}
+                    </a>
                   </Button>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             </FadeIn>
           ))}
         </div>
+
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          High volume?{" "}
+          <a href="#contact" className="font-medium text-primary underline underline-offset-4 hover:text-primary/80">
+            Talk to us about custom rates
+          </a>
+        </p>
       </div>
     </section>
   );
