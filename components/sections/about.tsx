@@ -34,7 +34,7 @@ export function About() {
           <FadeIn direction="left">
             <div className="relative overflow-hidden rounded-xl">
               <Image
-                src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80"
+                src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=800&q=80"
                 alt="Healthcare team collaborating in a modern office"
                 width={800}
                 height={600}
