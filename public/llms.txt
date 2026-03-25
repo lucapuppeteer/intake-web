@@ -1,0 +1,37 @@
+# IntakeAI
+> AI patient intake software for healthcare practices
+
+IntakeAI replaces paper patient intake forms with conversational AI. It automates patient intake calls, captures structured clinical data, syncs to EHR systems, and drafts preliminary diagnoses — so providers can focus on care. HIPAA compliant and SOC 2 Type II certified.
+
+## Key Pages
+- Homepage: https://aipatientintake.com
+- Blog: https://aipatientintake.com/blog
+- Privacy Policy: https://aipatientintake.com/privacy
+- Terms of Service: https://aipatientintake.com/terms
+
+## Product
+- Conversational AI intake (voice and text)
+- Automatic EHR population (Epic, Cerner, Athenahealth, eClinicalWorks, AllScripts)
+- Diagnosis draft generation
+- 30+ language support
+- HIPAA compliant, SOC 2 Type II certified
+- Pricing: $2.50/intake (Essentials), $3.50/intake (Professional), Enterprise custom
+
+## Blog Articles
+- https://aipatientintake.com/blog/what-is-a-patient-intake
+- https://aipatientintake.com/blog/what-is-ai-patient-intake
+- https://aipatientintake.com/blog/best-voice-ai-patient-intake-calls
+- https://aipatientintake.com/blog/digital-patient-intake-forms-registration
+- https://aipatientintake.com/blog/hipaa-compliance-guide
+- https://aipatientintake.com/blog/ai-patient-intake-future
+- https://aipatientintake.com/blog/reducing-intake-time
+- https://aipatientintake.com/blog/ai-intake-software-comparison
+- https://aipatientintake.com/blog/ai-intake-vs-traditional-forms
+- https://aipatientintake.com/blog/how-patient-intake-forms-ensure-hipaa-compliance
+- https://aipatientintake.com/blog/medical-registration-forms-patient-intake
+- https://aipatientintake.com/blog/online-forms-patient-intake
+- https://aipatientintake.com/blog/patient-intake-automation-guide
+
+## Contact
+- Email: hello@intakeai.com
+- Website: https://aipatientintake.com

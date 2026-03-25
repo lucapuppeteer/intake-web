@@ -37,7 +37,7 @@ export function HowItWorks() {
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=1920&q=80"
-          alt=""
+          alt="Medical team reviewing AI-assisted patient intake workflow"
           fill
           className="object-cover"
         />

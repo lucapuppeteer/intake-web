@@ -6,7 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { JsonLd } from "@/components/shared/json-ld";
 
 const faqs = [
   {
@@ -87,22 +86,8 @@ const faqs = [
 ];
 
 export function FAQ() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
   return (
     <section id="faq" className="py-24 sm:py-32">
-      <JsonLd data={faqSchema} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="FAQ"
@@ -138,12 +123,19 @@ export function FAQ() {
           >
             what AI patient intake is
           </Link>
-          , or discover the{" "}
+          , discover the{" "}
           <Link
             href="/blog/best-voice-ai-patient-intake-calls"
             className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
           >
             best voice AI for patient intake calls
+          </Link>
+          , or explore{" "}
+          <Link
+            href="/blog/ai-patient-intake-future"
+            className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            the future of AI patient intake
           </Link>
           .
         </p>

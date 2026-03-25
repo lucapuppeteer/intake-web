@@ -61,7 +61,7 @@ export default function HomePage() {
         priceCurrency: "USD",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: "3.50",
+          price: "2.50",
           priceCurrency: "USD",
           unitText: "per intake",
         },
@@ -73,7 +73,7 @@ export default function HomePage() {
         priceCurrency: "USD",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: "2.50",
+          price: "3.50",
           priceCurrency: "USD",
           unitText: "per intake",
         },

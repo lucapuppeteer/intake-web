@@ -1,6 +1,6 @@
 export const SITE_NAME = "IntakeAI";
 export const SITE_DESCRIPTION =
-  "AI patient intake software that replaces paper patient intake forms with conversational AI. Automate patient intake calls, capture structured clinical data, sync to your EHR, and draft a diagnosis — so providers can focus on care. HIPAA compliant.";
+  "AI patient intake software that automates clinical data collection, EHR sync, and diagnosis drafting. Replace paper forms with conversational AI. HIPAA compliant.";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://aipatientintake.com";
 

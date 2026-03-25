@@ -32,7 +32,7 @@ export function SocialProof() {
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1920&q=80"
-          alt=""
+          alt="Healthcare providers at a modern medical practice"
           fill
           className="object-cover"
         />

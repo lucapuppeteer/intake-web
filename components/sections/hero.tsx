@@ -10,7 +10,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1920&q=80"
-          alt=""
+          alt="Healthcare provider using AI patient intake software on a tablet"
           fill
           className="object-cover"
           priority
@@ -36,7 +36,7 @@ export function Hero() {
             </div>
 
             <h1 className="font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-              Modern patient intake.
+              AI patient intake.
               <br />
               <span className="text-primary">Clinical-grade</span> reliability.
             </h1>
