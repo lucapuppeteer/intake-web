@@ -1,29 +1,5 @@
 import Image from "next/image";
 import { FadeIn } from "@/components/animations/fade-in";
-import { SectionHeading } from "@/components/shared/section-heading";
-
-const team = [
-  {
-    name: "Dr. Sarah Chen",
-    role: "CEO & Co-Founder",
-    bio: "Former Chief Medical Informatics Officer. 15 years in health IT.",
-  },
-  {
-    name: "Marcus Johnson",
-    role: "CTO & Co-Founder",
-    bio: "Ex-Google Health engineer. ML and NLP specialist.",
-  },
-  {
-    name: "Dr. Emily Rivera",
-    role: "Chief Medical Officer",
-    bio: "Board-certified internist. Clinical AI researcher.",
-  },
-  {
-    name: "James Park",
-    role: "VP of Engineering",
-    bio: "Built enterprise healthcare platforms at Epic and Cerner.",
-  },
-];
 
 export function About() {
   return (
@@ -51,40 +27,23 @@ export function About() {
                 About
               </p>
               <h2 className="font-serif text-3xl tracking-tight sm:text-4xl">
-                Built by healthcare & AI experts
+                Rethinking patient intake from the ground up
               </h2>
               <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
                 <p>
                   Patient intake hasn&apos;t changed in decades. Clipboards, PDF
                   forms, and repetitive questions waste time for patients and
-                  staff alike. We started IntakeAI because we saw a better way.
+                  staff alike. We built IntakeAI because we saw a better way.
                 </p>
                 <p>
-                  Our team combines deep clinical expertise with cutting-edge AI
-                  research — so providers can spend their time where it matters
-                  most.
+                  IntakeAI automates the entire intake process — from scheduling
+                  to pre-visit data collection — so your team can focus on
+                  delivering great care instead of chasing paperwork.
                 </p>
-              </div>
-
-              <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                {team.map((member) => (
-                  <div
-                    key={member.name}
-                    className="rounded-lg border bg-card p-4"
-                  >
-                    <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                      {member.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </div>
-                    <p className="text-sm font-bold">{member.name}</p>
-                    <p className="text-xs text-primary">{member.role}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {member.bio}
-                    </p>
-                  </div>
-                ))}
+                <p>
+                  Built with HIPAA compliance and EHR integration at its core,
+                  IntakeAI works with the systems you already use.
+                </p>
               </div>
             </div>
           </FadeIn>
