@@ -98,18 +98,48 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  let payload: OutrankPayload;
+  let raw: Record<string, unknown>;
   try {
-    payload = await req.json();
+    raw = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  if (!payload.title || !payload.slug || !payload.content) {
+  // Log the full payload so we can inspect field names in Vercel logs
+  console.log("[outrank-webhook] received payload:", JSON.stringify(raw, null, 2));
+
+  // Normalize field names — Outrank may use different keys
+  const payload: OutrankPayload = {
+    title: (raw.title ?? raw.post_title ?? raw.headline ?? "") as string,
+    slug: (raw.slug ?? raw.post_slug ?? raw.url_slug ?? "") as string,
+    content: (raw.content ?? raw.body ?? raw.post_content ?? raw.markdown ?? raw.html ?? "") as string,
+    description: (raw.description ?? raw.excerpt ?? raw.meta_description ?? raw.summary ?? "") as string,
+    author: (raw.author ?? raw.author_name ?? "") as string,
+    tags: (raw.tags ?? raw.categories ?? []) as string[],
+    cover_image: (raw.cover_image ?? raw.featured_image ?? raw.image ?? raw.thumbnail ?? "") as string,
+    published_at: (raw.published_at ?? raw.date ?? raw.created_at ?? "") as string,
+  };
+
+  // If this looks like a test ping (no real content), acknowledge it
+  if (!payload.title && !payload.slug && !payload.content) {
+    console.log("[outrank-webhook] test ping received, raw:", JSON.stringify(raw));
+    return NextResponse.json({ ok: true, message: "Webhook received (test ping)" }, { status: 200 });
+  }
+
+  if (!payload.title || !payload.content) {
     return NextResponse.json(
-      { error: "Missing required fields: title, slug, content" },
+      { error: "Missing required fields", received_keys: Object.keys(raw) },
       { status: 400 }
     );
+  }
+
+  // Auto-generate slug from title if missing
+  if (!payload.slug) {
+    payload.slug = payload.title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
   }
 
   // Sanitize slug
