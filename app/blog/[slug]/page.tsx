@@ -235,6 +235,8 @@ function BlogContent({ content }: { content: string }) {
   let currentOl: string[] = [];
   let inTable = false;
   let tableRows: string[][] = [];
+  let htmlBuffer = "";
+  let inHtmlBlock = false;
   let key = 0;
 
   function flushParagraph() {
@@ -312,15 +314,76 @@ function BlogContent({ content }: { content: string }) {
     }
   }
 
+  function flushHtml() {
+    if (htmlBuffer.trim()) {
+      elements.push(
+        <div key={key++} dangerouslySetInnerHTML={{ __html: htmlBuffer }} />
+      );
+      htmlBuffer = "";
+      inHtmlBlock = false;
+    }
+  }
+
   function flushAll() {
     flushParagraph();
     flushUl();
     flushOl();
     flushTable();
+    flushHtml();
   }
 
   for (const line of lines) {
     const trimmed = line.trim();
+
+    // Raw HTML block accumulator (iframes, anchors, divs, etc.)
+    if (inHtmlBlock) {
+      if (trimmed === "") {
+        flushHtml();
+      } else {
+        htmlBuffer += line + "\n";
+        // Flush if this line closes the open tag
+        const openTags = (htmlBuffer.match(/<[a-zA-Z][^/>\s]*/g) ?? []).length;
+        const closeTags = (htmlBuffer.match(/<\/[a-zA-Z]/g) ?? []).length;
+        const selfClose = (htmlBuffer.match(/<[^>]+\/>/g) ?? []).length;
+        if (closeTags + selfClose >= openTags) flushHtml();
+      }
+      continue;
+    }
+
+    // Detect start of a raw HTML block
+    if (trimmed.startsWith("<") && !trimmed.startsWith("</")) {
+      flushParagraph();
+      flushUl();
+      flushOl();
+      flushTable();
+      // Self-contained on one line?
+      const openTags = (trimmed.match(/<[a-zA-Z][^/>\s]*/g) ?? []).length;
+      const closeTags = (trimmed.match(/<\/[a-zA-Z]/g) ?? []).length;
+      const selfClose = (trimmed.match(/<[^>]+\/>/g) ?? []).length;
+      if (closeTags + selfClose >= openTags) {
+        elements.push(<div key={key++} dangerouslySetInnerHTML={{ __html: trimmed }} />);
+      } else {
+        htmlBuffer = line + "\n";
+        inHtmlBlock = true;
+      }
+      continue;
+    }
+
+    // Block-level markdown image: ![alt](url)
+    const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imgMatch) {
+      flushAll();
+      elements.push(
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={key++}
+          src={imgMatch[2]}
+          alt={imgMatch[1]}
+          className="mb-6 w-full rounded-lg"
+        />
+      );
+      continue;
+    }
 
     // Table rows
     if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
