@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
       slug: (art.slug ?? art.post_slug ?? art.url_slug ?? "") as string,
       content: (art.content_markdown ?? art.content ?? art.body ?? art.post_content ?? art.markdown ?? art.html ?? "") as string,
       description: (art.meta_description ?? art.description ?? art.excerpt ?? art.summary ?? "") as string,
-      author: (art.author ?? art.author_name ?? "") as string,
+      author: ((art.author || art.author_name || "") as string) || undefined,
       tags: (art.tags ?? art.categories ?? []) as string[],
       cover_image: (art.image_url ?? art.cover_image ?? art.featured_image ?? art.image ?? art.thumbnail ?? "") as string,
       published_at: (art.created_at ?? art.published_at ?? art.date ?? "") as string,
