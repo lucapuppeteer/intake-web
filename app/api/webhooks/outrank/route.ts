@@ -89,11 +89,22 @@ async function commitToGitHub(
 }
 
 export async function POST(req: NextRequest) {
-  // Verify webhook secret
+  // Verify webhook secret — check all common header locations
   const secret = process.env.OUTRANK_WEBHOOK_SECRET;
   if (secret) {
-    const authHeader = req.headers.get("x-outrank-secret") ?? req.headers.get("authorization");
-    if (authHeader !== secret && authHeader !== `Bearer ${secret}`) {
+    const candidates = [
+      req.headers.get("x-outrank-secret"),
+      req.headers.get("x-webhook-secret"),
+      req.headers.get("x-secret"),
+      req.headers.get("x-api-key"),
+      req.headers.get("authorization"),
+      new URL(req.url).searchParams.get("secret"),
+    ];
+    const authorized = candidates.some(
+      (v) => v === secret || v === `Bearer ${secret}`
+    );
+    if (!authorized) {
+      console.log("[outrank-webhook] auth failed. Headers:", JSON.stringify(Object.fromEntries(req.headers)));
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
@@ -108,55 +119,72 @@ export async function POST(req: NextRequest) {
   // Log the full payload so we can inspect field names in Vercel logs
   console.log("[outrank-webhook] received payload:", JSON.stringify(raw, null, 2));
 
-  // Normalize field names — Outrank may use different keys
-  const payload: OutrankPayload = {
-    title: (raw.title ?? raw.post_title ?? raw.headline ?? "") as string,
-    slug: (raw.slug ?? raw.post_slug ?? raw.url_slug ?? "") as string,
-    content: (raw.content ?? raw.body ?? raw.post_content ?? raw.markdown ?? raw.html ?? "") as string,
-    description: (raw.description ?? raw.excerpt ?? raw.meta_description ?? raw.summary ?? "") as string,
-    author: (raw.author ?? raw.author_name ?? "") as string,
-    tags: (raw.tags ?? raw.categories ?? []) as string[],
-    cover_image: (raw.cover_image ?? raw.featured_image ?? raw.image ?? raw.thumbnail ?? "") as string,
-    published_at: (raw.published_at ?? raw.date ?? raw.created_at ?? "") as string,
-  };
-
-  // If this looks like a test ping (no real content), acknowledge it
-  if (!payload.title && !payload.slug && !payload.content) {
-    console.log("[outrank-webhook] test ping received, raw:", JSON.stringify(raw));
-    return NextResponse.json({ ok: true, message: "Webhook received (test ping)" }, { status: 200 });
+  // Handle Outrank's nested publish_articles event: { event_type, data: { articles: [...] } }
+  const articles: Record<string, unknown>[] = [];
+  if (raw.data && typeof raw.data === "object") {
+    const data = raw.data as Record<string, unknown>;
+    if (Array.isArray(data.articles) && data.articles.length > 0) {
+      articles.push(...(data.articles as Record<string, unknown>[]));
+    }
   }
 
-  if (!payload.title || !payload.content) {
-    return NextResponse.json(
-      { error: "Missing required fields", received_keys: Object.keys(raw) },
-      { status: 400 }
-    );
+  // If no nested articles, treat root object as a single article (fallback for other senders)
+  if (articles.length === 0) {
+    if (!raw.title && !raw.slug && !raw.content && !raw.content_markdown) {
+      console.log("[outrank-webhook] test ping received, raw:", JSON.stringify(raw));
+      return NextResponse.json({ ok: true, message: "Webhook received (test ping)" }, { status: 200 });
+    }
+    articles.push(raw);
   }
 
-  // Auto-generate slug from title if missing
-  if (!payload.slug) {
-    payload.slug = payload.title
+  const results: { slug: string; ok: boolean; message: string }[] = [];
+
+  for (const art of articles) {
+    // Normalize field names — handles Outrank and other senders
+    const payload: OutrankPayload = {
+      title: (art.title ?? art.post_title ?? art.headline ?? "") as string,
+      slug: (art.slug ?? art.post_slug ?? art.url_slug ?? "") as string,
+      content: (art.content_markdown ?? art.content ?? art.body ?? art.post_content ?? art.markdown ?? art.html ?? "") as string,
+      description: (art.meta_description ?? art.description ?? art.excerpt ?? art.summary ?? "") as string,
+      author: (art.author ?? art.author_name ?? "") as string,
+      tags: (art.tags ?? art.categories ?? []) as string[],
+      cover_image: (art.image_url ?? art.cover_image ?? art.featured_image ?? art.image ?? art.thumbnail ?? "") as string,
+      published_at: (art.created_at ?? art.published_at ?? art.date ?? "") as string,
+    };
+
+    if (!payload.title || !payload.content) {
+      console.log("[outrank-webhook] skipping article with missing fields:", { title: payload.title, contentLen: payload.content.length });
+      results.push({ slug: "", ok: false, message: "Missing title or content" });
+      continue;
+    }
+
+    // Auto-generate slug from title if missing
+    if (!payload.slug) {
+      payload.slug = payload.title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-");
+    }
+
+    // Sanitize slug
+    const slug = payload.slug
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
+      .replace(/[^a-z0-9-]/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    const mdx = buildMdx({ ...payload, slug });
+    const result = await commitToGitHub(slug, mdx);
+    console.log("[outrank-webhook]", result.message);
+    results.push({ slug, ...result });
   }
 
-  // Sanitize slug
-  const slug = payload.slug
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
-
-  const mdx = buildMdx({ ...payload, slug });
-  const result = await commitToGitHub(slug, mdx);
-
-  if (!result.ok) {
-    console.error("[outrank-webhook]", result.message);
-    return NextResponse.json({ error: result.message }, { status: 500 });
+  const failed = results.filter((r) => !r.ok);
+  if (failed.length > 0 && results.every((r) => !r.ok)) {
+    return NextResponse.json({ error: failed[0].message }, { status: 500 });
   }
 
-  console.log("[outrank-webhook]", result.message);
-  return NextResponse.json({ ok: true, slug, message: result.message }, { status: 200 });
+  const committed = results.filter((r) => r.ok).map((r) => r.slug);
+  return NextResponse.json({ ok: true, committed, results }, { status: 200 });
 }
