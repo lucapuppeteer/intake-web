@@ -18,8 +18,30 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
-      - name: Deploy to Vercel Production
-        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Refresh Vercel token and deploy
+        run: |
+          # Try current token; if it fails (403/invalid), refresh it first
+          TOKEN="${{ secrets.VERCEL_TOKEN }}"
+          REFRESH_TOKEN="${{ secrets.VERCEL_REFRESH_TOKEN }}"
+
+          # Test if token is still valid
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $TOKEN" https://api.vercel.com/v2/user)
+
+          if [ "$STATUS" != "200" ] && [ -n "$REFRESH_TOKEN" ]; then
+            echo "Access token expired, refreshing..."
+            RESPONSE=$(curl -s -X POST \
+              -H "Content-Type: application/json" \
+              -d "{\"refreshToken\":\"$REFRESH_TOKEN\"}" \
+              https://api.vercel.com/v3/user/tokens/refresh)
+            TOKEN=$(echo "$RESPONSE" | node -e "const d=require('fs').readFileSync('/dev/stdin','utf8'); console.log(JSON.parse(d).token || '')")
+            if [ -z "$TOKEN" ]; then
+              echo "Token refresh failed: $RESPONSE"
+              exit 1
+            fi
+            echo "Token refreshed successfully"
+          fi
+
+          vercel --prod --yes --token="$TOKEN"
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
