@@ -65,6 +65,11 @@ async function commitToGitHub(
   if (existing.ok) {
     const data = await existing.json();
     sha = data.sha;
+    // Skip commit if content is identical
+    const existingContent = Buffer.from(data.content.replace(/\n/g, ""), "base64").toString("utf-8");
+    if (existingContent === mdxContent) {
+      return { ok: true, message: `Skipped ${path} — content unchanged` };
+    }
   }
 
   const body: Record<string, string> = {
