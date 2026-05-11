@@ -116,7 +116,7 @@ export function Pricing() {
                     variant={tier.featured ? "default" : "outline"}
                     asChild
                   >
-                    <a href={tier.name === "Enterprise" ? "#contact" : "https://calendly.com/luca-ka3s"} target={tier.name === "Enterprise" ? undefined : "_blank"} rel={tier.name === "Enterprise" ? undefined : "noopener noreferrer"}>
+                    <a href={tier.name === "Enterprise" ? "#contact" : "https://cal.id/team/growth-puppeteer-ai/puppeteer-ai"} target={tier.name === "Enterprise" ? undefined : "_blank"} rel={tier.name === "Enterprise" ? undefined : "noopener noreferrer"}>
                       {tier.cta}
                     </a>
                   </Button>

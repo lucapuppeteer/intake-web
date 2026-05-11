@@ -39,7 +39,7 @@ export function MobileNav() {
           ))}
           <div className="my-2 h-px bg-border" />
           <Button asChild className="mt-2 w-full">
-            <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
+            <a href="https://cal.id/team/growth-puppeteer-ai/puppeteer-ai" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
               Book a Call
             </a>
           </Button>

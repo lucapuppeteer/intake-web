@@ -49,7 +49,7 @@ export function Hero() {
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Button size="lg" className="h-12 px-8 text-base" asChild>
-                <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer">
+                <a href="https://cal.id/team/growth-puppeteer-ai/puppeteer-ai" target="_blank" rel="noopener noreferrer">
                   Book a Call
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>

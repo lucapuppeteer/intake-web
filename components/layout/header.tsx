@@ -45,7 +45,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <Button asChild size="sm" className="hidden md:inline-flex">
-            <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer">Book a Call</a>
+            <a href="https://cal.id/team/growth-puppeteer-ai/puppeteer-ai" target="_blank" rel="noopener noreferrer">Book a Call</a>
           </Button>
           <MobileNav />
         </div>

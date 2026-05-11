@@ -148,7 +148,7 @@ export function Contact() {
                 Book a 30-minute demo with our team.
               </p>
               <Button variant="outline" size="sm" className="mt-3" asChild>
-                <a href="https://calendly.com/luca-ka3s" target="_blank" rel="noopener noreferrer">
+                <a href="https://cal.id/team/growth-puppeteer-ai/puppeteer-ai" target="_blank" rel="noopener noreferrer">
                   Book a Call
                 </a>
               </Button>
